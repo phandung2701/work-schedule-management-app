@@ -8,6 +8,12 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="green_4">#009C41</color>
+    <color name="green_3">#0DAC50</color>
+    <color name="green_2">#1DBC60</color>
+    <color name="green_1">#8EFFC1</color>
+
+
     <color name="Primary">#50C2C9</color>
     <color name="logo_color">#31a44a</color>
 
@@ -16,4 +22,5 @@
     <color name="colorAccent">#ffff8800</color>
     <color name="zircon">#e0e6e4</color>
     <color name="background_color">#eeeeee</color>
+
 </resources>
