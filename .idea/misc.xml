@@ -4,6 +4,16 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/admin/BTL_Android/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/admin/BTL_Android/work-schedule-management-app/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.121" />
+        <entry key="..\:/admin/BTL_Android/work-schedule-management-app/app/src/main/res/drawable/circle_button.xml" value="0.157" />
+        <entry key="..\:/admin/BTL_Android/work-schedule-management-app/app/src/main/res/drawable/custom_circle.xml" value="0.157" />
+        <entry key="..\:/admin/BTL_Android/work-schedule-management-app/app/src/main/res/drawable/ic_launcher_background.xml" value="0.121" />
+        <entry key="..\:/admin/BTL_Android/work-schedule-management-app/app/src/main/res/font/doublefeature_bold.xml" value="0.27589743589743587" />
+        <entry key="..\:/admin/BTL_Android/work-schedule-management-app/app/src/main/res/font/doublefeature_italic.xml" value="0.27589743589743587" />
+        <entry key="..\:/admin/BTL_Android/work-schedule-management-app/app/src/main/res/font/doublefeature_regular.xml" value="0.27589743589743587" />
+        <entry key="..\:/admin/BTL_Android/work-schedule-management-app/app/src/main/res/font/font.xml" value="0.27589743589743587" />
+        <entry key="..\:/admin/BTL_Android/work-schedule-management-app/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/admin/BTL_Android/work-schedule-management-app/app/src/main/res/layout/activity_splash_screen.xml" value="0.12158054711246201" />
       </map>
     </option>
   </component>
@@ -12,5 +22,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.11200000000000002" />
+      </ProjectState>
+    </option>
   </component>
 </project>
