@@ -15,7 +15,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BTL_Nhom4">
-        <activity
 
         <activity
             android:name=".ResignationLetterActivity"
@@ -48,6 +47,7 @@
             android:name=".AddEmployees"
             android:exported="false">           
         </activity>
+        <activity
             android:name=".SplashScreen"
             android:exported="false"></activity>
     </application>
