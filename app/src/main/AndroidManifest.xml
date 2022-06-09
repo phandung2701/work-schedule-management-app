@@ -17,12 +17,20 @@
         android:theme="@style/Theme.BTL_Nhom4">
         <activity
             android:name=".ResignationLetterActivity"
-            android:exported="true">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".Calendar"
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".WorkspaceActivityAdmin"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
