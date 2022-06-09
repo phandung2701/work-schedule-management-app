@@ -30,5 +30,8 @@
     <string name="acc_str">Tài khoản</string>
     <string name="acc_help">Cài đặt và trợ giúp</string>
     <string name="setting">Cài đặt</string>
+    <string name="market">Chợ</string>
+    <string name="device">Thiết bị</string>
+    <string name="add">Thêm</string>
 
 </resources>
