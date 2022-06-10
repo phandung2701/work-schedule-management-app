@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BTL_Nhom4">
         <activity
+            android:name=".AddEmployees"
+            android:exported="false" />
+        <activity
             android:name=".SplashScreen"
             android:exported="false" />
         <activity
@@ -28,7 +31,7 @@
             android:name=".register"
             android:exported="false" />
         <activity
-            android:name=".AddEmployees"
+            android:name=".Create_workspace"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,7 +39,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        //.SplashScreen
-        //.AddEmployees
     </application>
+//.Create_workspace
+    //.AddEmployees
 </manifest>
