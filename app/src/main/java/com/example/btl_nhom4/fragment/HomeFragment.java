@@ -11,8 +11,6 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 import com.example.btl_nhom4.R;
 
-
-
 public class HomeFragment extends Fragment {
 
     @Override

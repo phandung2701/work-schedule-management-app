@@ -10,6 +10,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.Manifest;
 import android.annotation.SuppressLint;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 
 import android.location.Location;
@@ -21,6 +22,7 @@ import android.os.Handler;
 
 import android.view.MenuItem;
 
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     BottomNavigationView bottomNavigation;
     ViewPager2 viewPager2;
     TextView weather_temp, weather_city,windSpeed,humidity,weatherMain,weatherNation;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,13 +116,30 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+
                 CallAPiWeather();
+
             }
-        },50);
+        },100);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                TextView textView = findViewById(R.id.test);
+                textView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        handleActivity();
+                    }
+                });
+            }
+        });
 
 
     }
-
+    private void handleActivity(){
+        Intent intent = new Intent(getApplicationContext(), WorkspaceActivityAdmin.class);
+        startActivity(intent);
+    }
 
 
     @SuppressLint("MissingPermission")
