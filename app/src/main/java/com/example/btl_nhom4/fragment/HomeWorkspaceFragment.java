@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.btl_nhom4.Calendar;
 import com.example.btl_nhom4.R;
+import com.example.btl_nhom4.StatisticByDay;
 import com.example.btl_nhom4.login;
 
 
@@ -25,7 +26,7 @@ public class HomeWorkspaceFragment extends Fragment {
         // Required empty public constructor
     }
 
-    LinearLayout calendarWorkspace;
+    LinearLayout calendarWorkspace,statisticByDay;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,6 +34,9 @@ public class HomeWorkspaceFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home_workspace, container, false);
         calendarWorkspace = view.findViewById(R.id.calendarWorkspace);
+        statisticByDay = view.findViewById(R.id.statistic);
+
+
         calendarWorkspace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,6 +44,15 @@ public class HomeWorkspaceFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        statisticByDay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity().getApplication(), StatisticByDay.class);
+                startActivity(intent);
+            }
+        });
+
         return view;
 
 
