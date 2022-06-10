@@ -49,5 +49,4 @@
             android:name=".SplashScreen"
             android:exported="false" />
     </application>
-
 </manifest>
