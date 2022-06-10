@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "342604826252",
+    "firebase_url": "https://work-schedule-management-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "work-schedule-management",
+    "storage_bucket": "work-schedule-management.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:342604826252:android:ab540ebf59f36c889f9da9",
+        "android_client_info": {
+          "package_name": "com.example.btl_nhom4"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "342604826252-16dpe6f8airka3qjfu4e8ln2e671e8sb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.btl_nhom4",
+            "certificate_hash": "d62399e91b7299b49e2c7da61bf613c45110bdee"
+          }
+        },
+        {
+          "client_id": "342604826252-v0lrdbv6ul3j8rtesgvte7em50bd3h3m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6Lqynb-KtHHaYwQkDt2wTubne-XkNuf4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "342604826252-v0lrdbv6ul3j8rtesgvte7em50bd3h3m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
