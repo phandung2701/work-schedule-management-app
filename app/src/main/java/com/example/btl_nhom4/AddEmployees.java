@@ -6,8 +6,6 @@ package com.example.btl_nhom4;
         import android.view.View;
         import android.widget.Button;
         import android.widget.ImageView;
-        import android.widget.TextView;
-        import android.widget.Toast;
         import android.widget.EditText;
         import com.google.android.material.textfield.TextInputLayout;
 public class AddEmployees extends AppCompatActivity {
@@ -39,7 +37,7 @@ public class AddEmployees extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //redirect to MainActivity
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), WorkspaceActivityAdmin.class);
                 startActivity(intent);
             }
         });
