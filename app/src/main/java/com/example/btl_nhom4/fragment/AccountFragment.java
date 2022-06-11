@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
@@ -30,11 +31,13 @@ public class AccountFragment extends Fragment {
 
     TextView userName,email;
     LinearLayout signout;
+    ProgressBar progressBar;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_account, container, false);
+        progressBar = view.findViewById(R.id.progressBar);
         signout = view.findViewById(R.id.signout);
         userName = view.findViewById(R.id.fragment_account_userName);
         email = view.findViewById(R.id.fragment_account_email);
@@ -59,11 +62,13 @@ public class AccountFragment extends Fragment {
         signout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
                 FirebaseAuth.getInstance().signOut();
 
                 Intent intent = new Intent(getActivity().getApplication(), login.class);
                 startActivity(intent);
                 getActivity().finishAffinity();
+                progressBar.setVisibility(View.GONE);
             }
         });
         return view;

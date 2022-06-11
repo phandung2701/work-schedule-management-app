@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.EditText;
@@ -25,6 +26,8 @@ public class login extends AppCompatActivity {
     TextView register;
     boolean isEmailValid, isPasswordValid;
     TextInputLayout emailError, passError;
+    ProgressBar progressBar;
+
     private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,9 @@ public class login extends AppCompatActivity {
         register = (TextView) findViewById(R.id.register);
         emailError = (TextInputLayout) findViewById(R.id.emailError);
         passError = (TextInputLayout) findViewById(R.id.passError);
+        progressBar = findViewById(R.id.progressBar);
+
+
         mAuth = FirebaseAuth.getInstance();
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,6 +50,7 @@ public class login extends AppCompatActivity {
                 if(SetValidation()){
                     String strEmail = email.getText().toString().trim();
                     String strPass = password.getText().toString().trim();
+                    progressBar.setVisibility(View.VISIBLE);
                     mAuth.signInWithEmailAndPassword(strEmail, strPass)
                             .addOnCompleteListener(login.this, new OnCompleteListener<AuthResult>() {
                                 @Override
@@ -52,12 +59,15 @@ public class login extends AppCompatActivity {
                                         // Sign in success, update UI with the signed-in user's information
                                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                         startActivity(intent);
+                                        progressBar.setVisibility(View.GONE);
                                         finishAffinity();
+
                                     } else {
                                         // If sign in fails, display a message to the user.
 
                                         Toast.makeText(login.this, "incorrect account or password",
                                                 Toast.LENGTH_SHORT).show();
+                                        progressBar.setVisibility(View.GONE);
                                     }
                                 }
                             });
