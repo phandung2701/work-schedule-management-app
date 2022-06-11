@@ -1,6 +1,7 @@
 package com.example.btl_nhom4;
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -13,13 +14,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.btl_nhom4.model.user.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class register extends AppCompatActivity {
     EditText name, email, password;
     Button register;
     TextView login;
     boolean isNameValid, isEmailValid, isPasswordValid;
     TextInputLayout nameError, emailError, passError;
+
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +51,41 @@ public class register extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SetValidation();
+                if( SetValidation()){
+                    String strEmail = email.getText().toString().trim();
+                    String strPass = password.getText().toString().trim();
+                    String userName = name.getText().toString().trim();
+                    mAuth = FirebaseAuth.getInstance();
+                    mAuth.createUserWithEmailAndPassword(strEmail, strPass)
+                            .addOnCompleteListener(register.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                            User user = new User(userName,strEmail);
+                                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                            DatabaseReference ref = database.getReference("Users");;
+                                            ref.child(mAuth.getCurrentUser().getUid())
+                                                .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if(task.isSuccessful()){
+                                                    Intent intent = new Intent(register.this,MainActivity.class);
+                                                    startActivity(intent);
+                                                    finishAffinity();
+                                                }
+                                                else{
+                                                    Toast.makeText(register.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+
+                                    } else {
+                                        Toast.makeText(register.this, "Email already exists", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                }
+
             }
         });
 
@@ -51,7 +99,7 @@ public class register extends AppCompatActivity {
         });
     }
 
-    public void SetValidation() {
+    public boolean SetValidation() {
         // Check for a valid name.
         if (name.getText().toString().isEmpty()) {
             nameError.setError(getResources().getString(R.string.name_error));
@@ -85,8 +133,8 @@ public class register extends AppCompatActivity {
         }
 
         if (isNameValid && isEmailValid && isPasswordValid) {
-            Toast.makeText(getApplicationContext(), "Successfully", Toast.LENGTH_SHORT).show();
+           return true;
         }
-
+        return false;
     }
 }

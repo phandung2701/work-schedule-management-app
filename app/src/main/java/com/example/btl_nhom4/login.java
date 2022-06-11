@@ -1,5 +1,6 @@
 package com.example.btl_nhom4;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -11,7 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.EditText;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 public class login extends AppCompatActivity {
@@ -20,7 +25,7 @@ public class login extends AppCompatActivity {
     TextView register;
     boolean isEmailValid, isPasswordValid;
     TextInputLayout emailError, passError;
-
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,11 +37,31 @@ public class login extends AppCompatActivity {
         register = (TextView) findViewById(R.id.register);
         emailError = (TextInputLayout) findViewById(R.id.emailError);
         passError = (TextInputLayout) findViewById(R.id.passError);
-
+        mAuth = FirebaseAuth.getInstance();
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SetValidation();
+                if(SetValidation()){
+                    String strEmail = email.getText().toString().trim();
+                    String strPass = password.getText().toString().trim();
+                    mAuth.signInWithEmailAndPassword(strEmail, strPass)
+                            .addOnCompleteListener(login.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        // Sign in success, update UI with the signed-in user's information
+                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                        startActivity(intent);
+                                        finishAffinity();
+                                    } else {
+                                        // If sign in fails, display a message to the user.
+
+                                        Toast.makeText(login.this, "incorrect account or password",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                }
             }
         });
 
@@ -50,7 +75,7 @@ public class login extends AppCompatActivity {
         });
     }
 
-    public void SetValidation() {
+    public boolean SetValidation() {
         // Check for a valid email address.
         if (email.getText().toString().isEmpty()) {
             emailError.setError(getResources().getString(R.string.email_error));
@@ -76,11 +101,9 @@ public class login extends AppCompatActivity {
         }
 
         if (isEmailValid && isPasswordValid) {
-            Toast.makeText(getApplicationContext(), "Successfully", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
+            return true;
         }
-
+        return false;
     }
 
 }

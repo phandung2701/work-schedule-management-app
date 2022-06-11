@@ -8,6 +8,9 @@ import android.os.Handler;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class SplashScreen extends AppCompatActivity {
     ImageView imageView;
     @Override
@@ -30,11 +33,22 @@ public class SplashScreen extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashScreen.this,login.class);
-                startActivity(intent);
+                nextActivity();
                 finish();
             }
         }, 3000);
 
+    }
+
+    private void nextActivity() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user == null){
+            Intent intent = new Intent(SplashScreen.this,login.class);
+            startActivity(intent);
+        }
+        else{
+            Intent intent = new Intent(SplashScreen.this,MainActivity.class);
+            startActivity(intent);
+        }
     }
 }
