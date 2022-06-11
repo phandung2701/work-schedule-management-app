@@ -79,18 +79,20 @@
 
                 >
                 <TextView
+                    android:id="@+id/fragment_account_userName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="+84367125371"
+                    android:text="-"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:textColor="@color/black"
                     android:layout_marginBottom="5dp"
                     />
                 <TextView
+                    android:id="@+id/fragment_account_email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="+84367125371"
+                    android:text="-"
                     android:textColor="@color/black"
                     android:textSize="12sp"
                     android:layout_marginBottom="10dp"
