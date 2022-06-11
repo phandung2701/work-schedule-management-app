@@ -10,6 +10,7 @@ import android.util.Patterns;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.EditText;
@@ -31,7 +32,7 @@ public class register extends AppCompatActivity {
     TextView login;
     boolean isNameValid, isEmailValid, isPasswordValid;
     TextInputLayout nameError, emailError, passError;
-
+    ProgressBar progressBar;
     private FirebaseAuth mAuth;
 
     @Override
@@ -47,6 +48,8 @@ public class register extends AppCompatActivity {
         nameError = (TextInputLayout) findViewById(R.id.nameError);
         emailError = (TextInputLayout) findViewById(R.id.emailError);
         passError = (TextInputLayout) findViewById(R.id.passError);
+        progressBar = findViewById(R.id.progressBar);
+
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +58,10 @@ public class register extends AppCompatActivity {
                     String strEmail = email.getText().toString().trim();
                     String strPass = password.getText().toString().trim();
                     String userName = name.getText().toString().trim();
+
                     mAuth = FirebaseAuth.getInstance();
+
+                    progressBar.setVisibility(View.VISIBLE);
                     mAuth.createUserWithEmailAndPassword(strEmail, strPass)
                             .addOnCompleteListener(register.this, new OnCompleteListener<AuthResult>() {
                                 @Override
@@ -72,15 +78,18 @@ public class register extends AppCompatActivity {
                                                     Intent intent = new Intent(register.this,MainActivity.class);
                                                     startActivity(intent);
                                                     finishAffinity();
+                                                    progressBar.setVisibility(View.GONE);
                                                 }
                                                 else{
                                                     Toast.makeText(register.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                                                    progressBar.setVisibility(View.GONE);
                                                 }
                                             }
                                         });
 
                                     } else {
                                         Toast.makeText(register.this, "Email already exists", Toast.LENGTH_SHORT).show();
+                                        progressBar.setVisibility(View.GONE);
                                     }
                                 }
                             });
