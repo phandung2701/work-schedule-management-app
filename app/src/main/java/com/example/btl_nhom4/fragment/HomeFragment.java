@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -50,6 +51,15 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        ImageView imageViewShowBottomSheetListWorkspace = view.findViewById(R.id.ImageViewShowBottomSheetListWorkspace);
+
+        imageViewShowBottomSheetListWorkspace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BottomSheetDialog bottomSheet = new BottomSheetDialog();
+                bottomSheet.show(getActivity().getSupportFragmentManager(), "ModalBottomSheet");
+            }
+        });
 
         return view;
     }
