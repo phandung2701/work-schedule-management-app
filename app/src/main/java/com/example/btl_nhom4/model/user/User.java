@@ -1,8 +1,11 @@
 package com.example.btl_nhom4.model.user;
 
+import java.util.List;
+
 public class User {
     private String username;
     private String email;
+    private List<Workspace> workspace;
 
     public User(String username, String email) {
         this.username = username;
@@ -26,5 +29,19 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public User(String username, String email, List<Workspace> workspace) {
+        this.username = username;
+        this.email = email;
+        this.workspace = workspace;
+    }
+
+    public List<Workspace> getWorkspace() {
+        return workspace;
+    }
+
+    public void setWorkspace(List<Workspace> workspace) {
+        this.workspace = workspace;
     }
 }

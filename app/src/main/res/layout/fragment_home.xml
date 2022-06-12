@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="#eeeeee"
+
     tools:context=".fragment.HomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -72,11 +73,13 @@
             />
     </LinearLayout>
     <androidx.cardview.widget.CardView
-        android:layout_width="375dp"
+        android:layout_width="match_parent"
         android:layout_height="165dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
-        app:cardCornerRadius="13dp"
+        app:cardCornerRadius="15dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
 
         >
        <LinearLayout
@@ -226,7 +229,55 @@
 
 
     </androidx.cardview.widget.CardView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Workspace của bạn"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"
+        android:paddingLeft="20dp"
+        android:layout_marginTop="10dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Danh sách workspace của bạn đã tham gia"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:paddingLeft="20dp"
+        android:layout_marginBottom="8dp"
+        />
+    <androidx.cardview.widget.CardView
+        android:id="@+id/CreateWorkspace"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_gravity="center_horizontal"
+        app:cardCornerRadius="10dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="10dp"
 
-    <include layout="@layout/layout_add_list_workspace"/>
+
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tạo workspace"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="18dp"
+            />
+    </androidx.cardview.widget.CardView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv_workspace"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 
 </LinearLayout>

@@ -5,15 +5,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.example.btl_nhom4.adapter.ViewPager2AdapterWorkspace;
+import com.example.btl_nhom4.fragment.HomeWorkspaceFragment;
+import com.example.btl_nhom4.model.user.Workspace;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class WorkspaceActivityAdmin extends AppCompatActivity {
-    BottomNavigationView bottomNavigation;
-    ViewPager2 viewPager2;
+    private BottomNavigationView bottomNavigation;
+    private ViewPager2 viewPager2;
+    private TextView tv_name_workspace,tv_email_workspace;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,9 +27,20 @@ public class WorkspaceActivityAdmin extends AppCompatActivity {
 
         bottomNavigation = findViewById(R.id.bottom_nav_workspace);
         viewPager2 = findViewById(R.id.view_pager2_workspace);
+
         // set adapter cho viewpager2
         ViewPager2AdapterWorkspace adapter = new ViewPager2AdapterWorkspace(this);
         viewPager2.setAdapter(adapter);
+
+
+        Bundle bundle = getIntent().getExtras();
+        if(bundle == null){
+            return;
+        }
+        Workspace workspace = (Workspace) bundle.get("obj_workspace");
+
+
+
 
         //khi vuốt qua lại giữa các fragment thì các tab bottom navigation thay đổi tương ứng
         viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
@@ -68,6 +85,18 @@ public class WorkspaceActivityAdmin extends AppCompatActivity {
                 return true;
             }
         });
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                tv_name_workspace = viewPager2.findViewById(R.id.tv_name_workspace);
+                tv_email_workspace = viewPager2.findViewById(R.id.tv_email_workspace);
+
+                tv_name_workspace.setText(workspace.getNameWorkspace());
+                tv_email_workspace.setText(workspace.getEmail());
+            }
+        },50);
+
+
 
     }
 }

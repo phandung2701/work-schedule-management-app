@@ -45,10 +45,13 @@
         <entry key="..\:/admin/BTL_Android/work-schedule-management-app/app/src/main/res/font/doublefeature_italic.xml" value="0.27589743589743587" />
         <entry key="..\:/admin/BTL_Android/work-schedule-management-app/app/src/main/res/font/doublefeature_regular.xml" value="0.27589743589743587" />
         <entry key="..\:/admin/BTL_Android/work-schedule-management-app/app/src/main/res/font/font.xml" value="0.27589743589743587" />
+        <entry key="..\:/admin/BTL_Android/work-schedule-management-app/app/src/main/res/layout/activity_add_employees.xml" value="0.17552083333333332" />
         <entry key="..\:/admin/BTL_Android/work-schedule-management-app/app/src/main/res/layout/activity_calendar.xml" value="0.25" />
+        <entry key="..\:/admin/BTL_Android/work-schedule-management-app/app/src/main/res/layout/activity_create_workspace.xml" value="0.25" />
         <entry key="..\:/admin/BTL_Android/work-schedule-management-app/app/src/main/res/layout/activity_login.xml" value="0.2" />
         <entry key="..\:/admin/BTL_Android/work-schedule-management-app/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/admin/BTL_Android/work-schedule-management-app/app/src/main/res/layout/activity_register.xml" value="0.25" />
+        <entry key="..\:/admin/BTL_Android/work-schedule-management-app/app/src/main/res/layout/activity_resignation_letter.xml" value="0.25" />
         <entry key="..\:/admin/BTL_Android/work-schedule-management-app/app/src/main/res/layout/activity_splash_screen.xml" value="0.12158054711246201" />
         <entry key="..\:/admin/BTL_Android/work-schedule-management-app/app/src/main/res/layout/activity_statistic_by_day.xml" value="0.264" />
         <entry key="..\:/admin/BTL_Android/work-schedule-management-app/app/src/main/res/layout/activity_workspace.xml" value="0.25" />
@@ -64,6 +67,7 @@
         <entry key="..\:/admin/BTL_Android/work-schedule-management-app/app/src/main/res/layout/layout_add_list_workspace.xml" value="0.25" />
         <entry key="..\:/admin/BTL_Android/work-schedule-management-app/app/src/main/res/layout/layout_bottom_nav_workspace.xml" value="0.25" />
         <entry key="..\:/admin/BTL_Android/work-schedule-management-app/app/src/main/res/layout/layout_bottom_navigation.xml" value="0.25" />
+        <entry key="..\:/admin/BTL_Android/work-schedule-management-app/app/src/main/res/layout/workspace_item.xml" value="0.25" />
         <entry key="..\:/admin/BTL_Android/work-schedule-management-app/app/src/main/res/menu/bottom_navigation.xml" value="0.25" />
         <entry key="..\:/admin/BTL_Android/work-schedule-management-app/app/src/main/res/menu/bottom_navigation_workspace.xml" value="0.25" />
       </map>

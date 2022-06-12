@@ -36,16 +36,16 @@
         android:src="@drawable/logo"
         android:layout_marginTop="30dp"
         />
+
     <com.example.btl_nhom4.custom_textview.RobotoBoldTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Work schedule management"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="150dp"
         android:layout_centerHorizontal="true"
-        android:textSize="30sp"
+        android:layout_marginBottom="150dp"
+        android:text="Work schedule management"
         android:textColor="@color/white"
-        />
+        android:textSize="25sp" />
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
