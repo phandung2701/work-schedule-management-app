@@ -82,6 +82,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
+
        createWorkspace.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
@@ -96,6 +97,16 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        ImageView imageViewShowBottomSheetListWorkspace = view.findViewById(R.id.ImageViewShowBottomSheetListWorkspace);
+
+        imageViewShowBottomSheetListWorkspace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BottomSheetDialog bottomSheet = new BottomSheetDialog();
+                bottomSheet.show(getActivity().getSupportFragmentManager(), "ModalBottomSheet");
+            }
+        });
+
         return view;
     }
     private void getListWorkspace(){
