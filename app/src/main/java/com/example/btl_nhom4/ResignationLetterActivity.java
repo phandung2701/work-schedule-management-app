@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +45,8 @@ public class ResignationLetterActivity extends AppCompatActivity {
     private String txtDateOfResignation = "";
     private String txtReasonResignation = "";
     private String nameLeader = "Lê Thanh Sơn";
+   private ImageView back_pressed;
+
 
     private String[] listTypeNameLetters = {
         "Nghỉ phép",
@@ -70,7 +73,10 @@ public class ResignationLetterActivity extends AppCompatActivity {
         btnSubmitLetter = findViewById(R.id.buttonSubmitLetter);
         textViewNameLeader = findViewById(R.id.textViewNameLeader);
         textViewNameLeader.setText(nameLeader);
+
         textInputEditTextReasonLetter = findViewById(R.id.textInputEditTextReasonLetter);
+        back_pressed = findViewById(R.id.btnBackPressed);
+
         autoCompleteTextViewTypeLetter = (AutoCompleteTextView)findViewById(R.id.autoCompleteTextViewTypeLetter);
         autoCompleteTextViewTimeLetter = (AutoCompleteTextView)findViewById(R.id.autoCompleteTextViewTimeLetter);
 
@@ -104,6 +110,7 @@ public class ResignationLetterActivity extends AppCompatActivity {
                 datePickerDialog.show();
             }
         });
+
 
         textInputEditTextReasonLetter.addTextChangedListener(new TextWatcher() {
             @Override
@@ -215,6 +222,10 @@ public class ResignationLetterActivity extends AppCompatActivity {
                             }
                         });
                 }
+        back_pressed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

@@ -5,15 +5,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 
 import com.example.btl_nhom4.adapter.ViewPager2AdapterWorkspace;
+import com.example.btl_nhom4.fragment.HomeWorkspaceFragment;
+import com.example.btl_nhom4.model.user.Workspace;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class WorkspaceActivityAdmin extends AppCompatActivity {
-    BottomNavigationView bottomNavigation;
-    ViewPager2 viewPager2;
+    private BottomNavigationView bottomNavigation;
+    private ViewPager2 viewPager2;
+
+    public  String name;
+    public  String email;
+    public String admin;
+    public int idWsp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,9 +30,22 @@ public class WorkspaceActivityAdmin extends AppCompatActivity {
 
         bottomNavigation = findViewById(R.id.bottom_nav_workspace);
         viewPager2 = findViewById(R.id.view_pager2_workspace);
+
         // set adapter cho viewpager2
         ViewPager2AdapterWorkspace adapter = new ViewPager2AdapterWorkspace(this);
         viewPager2.setAdapter(adapter);
+
+
+        Bundle bundle = getIntent().getExtras();
+        if(bundle == null){
+            return;
+        }
+
+        Workspace workspace = (Workspace) bundle.get("obj_workspace");
+        name = workspace.getNameWorkspace();
+        email = workspace.getEmail();
+        idWsp = workspace.getIdWorkspace();
+        admin = workspace.getAdmin();
 
         //khi vuốt qua lại giữa các fragment thì các tab bottom navigation thay đổi tương ứng
         viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
@@ -68,6 +90,52 @@ public class WorkspaceActivityAdmin extends AppCompatActivity {
                 return true;
             }
         });
+        if (savedInstanceState != null) {
+            name = savedInstanceState.getString("name");
+            email = savedInstanceState.getString("email");
+        }
+    }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("name",name);
+        outState.putString("email",email);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+    }
+
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public int getIdWsp() {
+        return idWsp;
+    }
+
+    public String getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(String admin) {
+        this.admin = admin;
     }
 }

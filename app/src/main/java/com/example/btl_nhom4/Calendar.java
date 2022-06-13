@@ -61,8 +61,7 @@ public class Calendar extends AppCompatActivity {
         btnBackPressed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplication(), WorkspaceActivityAdmin.class);
-                startActivity(intent);
+                finish();
             }
         });
     }

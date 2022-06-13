@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.example.btl_nhom4.WorkspaceActivityAdmin;
 import com.example.btl_nhom4.fragment.AccountFragment;
 import com.example.btl_nhom4.fragment.AddWorkspaceFragment;
 import com.example.btl_nhom4.fragment.HomeFragment;
@@ -15,7 +16,7 @@ import com.example.btl_nhom4.fragment.WorkplaceFragment;
 import com.example.btl_nhom4.fragment.WorkspaceFragment;
 
 public class ViewPager2AdapterWorkspace extends FragmentStateAdapter {
-    public ViewPager2AdapterWorkspace(@NonNull FragmentActivity fragmentActivity) {
+    public ViewPager2AdapterWorkspace(@NonNull WorkspaceActivityAdmin fragmentActivity) {
         super(fragmentActivity);
     }
 
