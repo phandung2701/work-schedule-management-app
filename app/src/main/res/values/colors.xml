@@ -23,5 +23,7 @@
     <color name="colorAccent">#CDDC39</color>
     <color name="zircon">#e0e6e4</color>
     <color name="background_color">#eeeeee</color>
+
+    <color name="black_gray">#555555</color>
     <color name="error">#9F0606</color>
 </resources>

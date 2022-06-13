@@ -26,6 +26,7 @@
             android:exported="false" />
         <activity
             android:name=".ResignationLetterActivity"
+
             android:exported="false" />
         <activity
             android:name=".Calendar"
