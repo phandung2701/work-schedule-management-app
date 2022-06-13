@@ -105,8 +105,7 @@ public class Create_workspace extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //redirect to MainActivity
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
+               finish();
             }
         });
     }

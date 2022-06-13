@@ -60,6 +60,7 @@ public class WorkspaceAdapter extends RecyclerView.Adapter<WorkspaceAdapter.Work
         bundle.putSerializable("obj_workspace", workspace);
         intent.putExtras(bundle);
         context.startActivity(intent);
+
     }
 
     @Override

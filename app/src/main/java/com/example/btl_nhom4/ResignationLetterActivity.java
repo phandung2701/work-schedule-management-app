@@ -4,11 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -16,10 +18,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.Calendar;
 
 public class ResignationLetterActivity extends AppCompatActivity {
-    TextInputEditText textInputEditTextReasonLetter;
-    TextView textViewNameLeader;
-    AutoCompleteTextView autoCompleteTextViewTypeLetter, autoCompleteTextViewTimeLetter;
+    private TextInputEditText textInputEditTextReasonLetter;
+    private TextView textViewNameLeader;
+    private AutoCompleteTextView autoCompleteTextViewTypeLetter, autoCompleteTextViewTimeLetter;
     private Calendar calendar;
+    private ImageView back_pressed;
     private String[] listTypeNameLetters = {
         "Nghỉ phép",
         "Nghỉ phép nửa ngày",
@@ -42,6 +45,7 @@ public class ResignationLetterActivity extends AppCompatActivity {
 
         textViewNameLeader = findViewById(R.id.textViewNameLeader);
         textViewNameLeader.setText(nameLeader);
+        back_pressed = findViewById(R.id.btnBackPressed);
 
         autoCompleteTextViewTypeLetter = (AutoCompleteTextView)findViewById(R.id.autoCompleteTextViewTypeLetter);
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.list_item, R.id.textViewListNameTypeLetters, listTypeNameLetters);
@@ -65,6 +69,12 @@ public class ResignationLetterActivity extends AppCompatActivity {
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(), dateSetListener, year, month, day);
                 datePickerDialog.show();
+            }
+        });
+        back_pressed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

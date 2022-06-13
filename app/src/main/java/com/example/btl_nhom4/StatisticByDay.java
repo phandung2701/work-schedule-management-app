@@ -32,8 +32,7 @@ public class StatisticByDay extends AppCompatActivity {
         imgBackActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplication(), WorkspaceActivityAdmin.class);
-                startActivity(intent);
+                finish();
             }
         });
 

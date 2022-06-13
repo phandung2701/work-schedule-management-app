@@ -16,11 +16,12 @@
 
     <color name="Primary">#50C2C9</color>
     <color name="logo_color">#31a44a</color>
-
+    <color name="notificationActive">#f7ebef</color>
+    <color name="notificationWatched">#e8e8e8</color>
     <color name="colorPrimary">#2a7ee6</color>
     <color name="colorPrimaryDark">#76a5df</color>
     <color name="colorAccent">#CDDC39</color>
     <color name="zircon">#e0e6e4</color>
     <color name="background_color">#eeeeee</color>
-
+    <color name="error">#9F0606</color>
 </resources>

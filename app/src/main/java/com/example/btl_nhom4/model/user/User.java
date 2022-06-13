@@ -5,11 +5,13 @@ import java.util.List;
 public class User {
     private String username;
     private String email;
+    private String uid;
     private List<Workspace> workspace;
 
-    public User(String username, String email) {
+    public User(String username, String email,String uid) {
         this.username = username;
         this.email = email;
+        this.uid = uid;
     }
 
     public User() {
@@ -42,6 +44,21 @@ public class User {
     }
 
     public void setWorkspace(List<Workspace> workspace) {
+        this.workspace = workspace;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public User(String username, String email, String uid, List<Workspace> workspace) {
+        this.username = username;
+        this.email = email;
+        this.uid = uid;
         this.workspace = workspace;
     }
 }

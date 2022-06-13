@@ -64,7 +64,7 @@ public class register extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
-                                            User user = new User(userName,strEmail);
+                                            User user = new User(userName,strEmail,mAuth.getCurrentUser().getUid());
                                             FirebaseDatabase database = FirebaseDatabase.getInstance();
                                             DatabaseReference ref = database.getReference("Users");;
                                             ref.child(mAuth.getCurrentUser().getUid())

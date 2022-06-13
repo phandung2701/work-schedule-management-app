@@ -1,5 +1,8 @@
 package com.example.btl_nhom4.fragment;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -62,13 +65,34 @@ public class AccountFragment extends Fragment {
         signout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBar.setVisibility(View.VISIBLE);
-                FirebaseAuth.getInstance().signOut();
 
-                Intent intent = new Intent(getActivity().getApplication(), login.class);
-                startActivity(intent);
-                getActivity().finishAffinity();
-                progressBar.setVisibility(View.GONE);
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                alertDialog.setTitle("Thông báo");
+                alertDialog.setIcon(R.drawable.logo);
+                alertDialog.setMessage("Bạn có muốn đăng xuất");
+
+                alertDialog.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    // do nothing
+                    }
+                });
+                alertDialog.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        progressBar.setVisibility(View.VISIBLE);
+                        FirebaseAuth.getInstance().signOut();
+                        Intent intent = new Intent(getActivity().getApplication(), login.class);
+                        startActivity(intent);
+                        getActivity().finishAffinity();
+                        progressBar.setVisibility(View.GONE);
+                    }
+                });
+                alertDialog.show();
+
+
+
+
             }
         });
         return view;
