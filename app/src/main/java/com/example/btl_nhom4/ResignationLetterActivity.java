@@ -229,4 +229,5 @@ public class ResignationLetterActivity extends AppCompatActivity {
             }
         });
     }
-}
+} );
+    }}

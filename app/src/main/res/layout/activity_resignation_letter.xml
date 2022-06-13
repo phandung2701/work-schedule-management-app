@@ -163,8 +163,6 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:id="@+id/textInputEditTextReasonLetter"
-            android:layout_width="375dp"
-            android:layout_height="192dp"
             android:gravity="top"
             android:inputType="text|textMultiLine"
             tools:layout_editor_absoluteX="16dp"
