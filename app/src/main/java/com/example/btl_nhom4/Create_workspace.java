@@ -8,8 +8,26 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.btl_nhom4.model.user.User;
+import com.example.btl_nhom4.model.user.Workspace;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.List;
 
 public class Create_workspace extends AppCompatActivity {
     EditText nameCompany, email,name_workspace;
@@ -18,8 +36,9 @@ public class Create_workspace extends AppCompatActivity {
     boolean isNameCompanyValid, isEmailValid, isNameWorkspaceValid;
     TextInputLayout nameCompanyError, emailError, name_workspaceError;
     AutoCompleteTextView autocomplete;
-
-    String[] arr = { "An Giang", "Bà rịa – Vũng tàu", "Bắc Giang", "Bắc Kạn",
+    ProgressBar progressBar;
+    private int idWorkspace = 0;
+    private static final String[] PROVINCES = { "An Giang", "Bà rịa – Vũng tàu", "Bắc Giang", "Bắc Kạn",
             "Bạc Liêu", "Bắc Ninh", "Bến Tre", "Bình Định", "Bình Dương", "Bình Phước", "Bình Thuận",
             "Cà Mau" , "Cần Thơ" , "Cao Bằng" , "Đà Nẵng" , "Điện Biên" , "Hà Giang" , "Hà Nam" ,
             "Hà Nội", "Hà Tĩnh" , "Hải Dương" , "Hải Phòng" , "Hậu Giang" , "Hòa Bình" , "Hưng Yên" ,
@@ -34,7 +53,8 @@ public class Create_workspace extends AppCompatActivity {
                 findViewById(R.id.autoCompleteTextView1);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>
-                (this,android.R.layout.select_dialog_item, arr);
+                (this,android.R.layout.select_dialog_item, PROVINCES);
+
 
         autocomplete.setThreshold(2);
         autocomplete.setAdapter(adapter);
@@ -47,11 +67,37 @@ public class Create_workspace extends AppCompatActivity {
         nameCompanyError = (TextInputLayout) findViewById(R.id.nameCompanyError);
         emailError = (TextInputLayout) findViewById(R.id.emailError);
         name_workspaceError = (TextInputLayout) findViewById(R.id.name_workspaceError);
-
+        progressBar = findViewById(R.id.progressBar);
         CreateWorkspace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SetValidation();
+                if(SetValidation()){
+                    progressBar.setVisibility(View.VISIBLE);
+                    String nameWorkspace = name_workspace.getText().toString().trim();
+                    String admin  = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    String strEmail = email.getText().toString().trim();
+                    String companyName = nameCompany.getText().toString().trim();
+                    String province = autocomplete.getText().toString().trim();
+                    String workTime = "08:00";
+                    String endWorkTime = "17:00";
+                    String lateTimeCheckIn = "08:15";
+                    int hashCode = nameWorkspace.hashCode();
+
+                    Workspace workspace = new Workspace(hashCode,nameWorkspace,companyName,workTime,endWorkTime,lateTimeCheckIn,province,strEmail,admin);
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference ref = database.getReference("Workspaces");
+                    ref.child(String.valueOf(hashCode)).setValue(workspace, new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                            Toast.makeText(Create_workspace.this,"Successfully added workspace",Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    });
+                }
+
             }
         });
 
@@ -59,12 +105,11 @@ public class Create_workspace extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //redirect to MainActivity
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
+               finish();
             }
         });
     }
-    public void SetValidation() {
+    public boolean SetValidation() {
         // Check for a valid name company.
         if (nameCompany.getText().toString().isEmpty()) {
             nameCompanyError.setError(getResources().getString(R.string.name_error));
@@ -93,6 +138,9 @@ public class Create_workspace extends AppCompatActivity {
             isNameWorkspaceValid = true;
             name_workspaceError.setErrorEnabled(false);
         }
-
+        if(isEmailValid && isNameWorkspaceValid && isNameCompanyValid){
+            return true;
+        }
+        return false;
     }
 }
