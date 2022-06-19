@@ -1,6 +1,7 @@
 package com.example.btl_nhom4;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -70,6 +71,15 @@ public class OffWorkActivity extends AppCompatActivity {
         rcv_offWork.setAdapter(mOffWorkAdapter);
 
         getListOffWork();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String amount = mListOffWork.size() + " người";
+                tv_amount.setText(amount);
+            }
+        },300);
+
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,11 +118,9 @@ public class OffWorkActivity extends AppCompatActivity {
                                         mListOffWork.clear();
                                         for (DataSnapshot data : snapshot.getChildren()){
                                             User user = data.getValue(User.class);
-                                            for(User item : all){
-                                                if(!user.getUid().equals(item.getUid())){
-                                                    mListOffWork.add(user);
-                                                }
-                                            }
+                                           if(!checkOffWork(user,all)){
+                                               mListOffWork.add(user);
+                                           }
                                         }
                                         mOffWorkAdapter.notifyDataSetChanged();
                                     }
@@ -138,6 +146,15 @@ public class OffWorkActivity extends AppCompatActivity {
             }
         });
 
+    }
+    private boolean checkOffWork(User user,List<User> all){
+        for(User item : all){
+            if(user.getUid().equals(item.getUid())){
+                return true;
+            }
+
+        }
+        return false;
     }
 
 }
