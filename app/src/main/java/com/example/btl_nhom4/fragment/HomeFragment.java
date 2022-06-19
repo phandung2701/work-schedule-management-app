@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +44,7 @@ public class HomeFragment extends Fragment {
     private WorkspaceAdapter mWorkspaceAdapter;
     private List<Workspace> mListWorkspace;
     private ImageView icon_notification;
+    ProgressBar progressBar;
     String uiId;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,6 +56,7 @@ public class HomeFragment extends Fragment {
         createWorkspace = view.findViewById(R.id.CreateWorkspace);
         rcv_workspace = view.findViewById(R.id.rcv_workspace);
         icon_notification = view.findViewById(R.id.call_notification);
+        progressBar = view.findViewById(R.id.progressBar);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rcv_workspace.setLayoutManager(linearLayoutManager);
@@ -63,8 +66,9 @@ public class HomeFragment extends Fragment {
         mWorkspaceAdapter = new WorkspaceAdapter(mListWorkspace,getContext());
         rcv_workspace.setAdapter(mWorkspaceAdapter);
         uiId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        progressBar.setVisibility(View.VISIBLE);
         getListWorkspace();
-
+        progressBar.setVisibility(View.GONE);
 
 
         FirebaseDatabase.getInstance().getReference().child("Users").child(uiId)

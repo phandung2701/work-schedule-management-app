@@ -58,7 +58,7 @@ public class EmployeeActivity extends AppCompatActivity {
         mEmployeeAdapter = new EmployeeAdapter(mListUsers,getApplicationContext());
         rcv_employee.setAdapter(mEmployeeAdapter);
 
-        getListNotification();
+        getListEmployee();
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +69,7 @@ public class EmployeeActivity extends AppCompatActivity {
 
     }
 
-    private void getListNotification() {
+    private void getListEmployee() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference();
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -83,7 +83,6 @@ public class EmployeeActivity extends AppCompatActivity {
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
                     User user = dataSnapshot.getValue(User.class);
                     mListUsers.add(user);
-                    Log.e("firebase", String.valueOf(idWsp));
                 }
                 mEmployeeAdapter.notifyDataSetChanged();
             }

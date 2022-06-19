@@ -81,6 +81,13 @@ public class ResignationLetterActivity extends AppCompatActivity {
         autoCompleteTextViewTimeLetter = (AutoCompleteTextView)findViewById(R.id.autoCompleteTextViewTimeLetter);
 
         // setup some features before run the activity
+
+        back_pressed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         //// set for button
         btnSubmitLetter.setEnabled(false);
         btnSubmitLetter.setBackgroundTintList(ContextCompat.getColorStateList(ResignationLetterActivity.this, R.color.black_gray));
@@ -222,12 +229,7 @@ public class ResignationLetterActivity extends AppCompatActivity {
                             }
                         });
                 }
-        back_pressed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+
     }
 } );
     }}

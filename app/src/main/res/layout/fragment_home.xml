@@ -76,7 +76,7 @@
     </LinearLayout>
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="165dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
         app:cardCornerRadius="15dp"
@@ -274,13 +274,24 @@
             android:paddingLeft="18dp"
             />
     </androidx.cardview.widget.CardView>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcv_workspace"
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="60dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
+        >
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_workspace"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </RelativeLayout>
 
     <include layout="@layout/layout_add_list_workspace"/>
     <include layout="@layout/bottom_sheet" />
