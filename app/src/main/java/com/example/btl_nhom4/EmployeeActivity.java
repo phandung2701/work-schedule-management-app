@@ -10,12 +10,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.btl_nhom4.adapter.EmployeeAdapter;
 import com.example.btl_nhom4.adapter.NotificationAdapter;
 import com.example.btl_nhom4.model.user.Notification;
 import com.example.btl_nhom4.model.user.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,7 +34,10 @@ public class EmployeeActivity extends AppCompatActivity {
     private List<User> mListUsers;
     private EmployeeAdapter mEmployeeAdapter;
     private ImageView btnBack;
+    private TextView tv_nameWorkspace,tv_emailWorkspace;
     private int idWsp;
+    private FirebaseDatabase database ;
+    private DatabaseReference reference ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +45,8 @@ public class EmployeeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_employee);
 
         rcv_employee = findViewById(R.id.rcv_employee);
-
+        tv_nameWorkspace = findViewById(R.id.tv_nameWorkspace);
+        tv_emailWorkspace = findViewById(R.id.tv_emailWorkspace);
         btnBack = findViewById(R.id.btnBackPressed);
 
         Bundle bundle = getIntent().getExtras();
@@ -49,7 +56,6 @@ public class EmployeeActivity extends AppCompatActivity {
         idWsp = bundle.getInt("wspID");
         if (savedInstanceState != null) {
             idWsp = savedInstanceState.getInt("idWsp");
-            Log.e("firebase", String.valueOf(idWsp)+"ok");
         }
         mListUsers = new ArrayList<>();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -59,6 +65,25 @@ public class EmployeeActivity extends AppCompatActivity {
         rcv_employee.setAdapter(mEmployeeAdapter);
 
         getListEmployee();
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        database = FirebaseDatabase.getInstance();
+        reference = database.getReference();
+        reference.child("Users").child(uid).child("email").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if(task.isSuccessful()){
+                    tv_emailWorkspace.setText(String.valueOf(task.getResult().getValue()));
+                }
+            }
+        });
+        reference.child("Users").child(uid).child("username").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if(task.isSuccessful()){
+                    tv_nameWorkspace.setText(String.valueOf(task.getResult().getValue()));
+                }
+            }
+        });
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +108,7 @@ public class EmployeeActivity extends AppCompatActivity {
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
                     User user = dataSnapshot.getValue(User.class);
                     mListUsers.add(user);
+                    Log.e("firebase", String.valueOf(idWsp));
                 }
                 mEmployeeAdapter.notifyDataSetChanged();
             }
