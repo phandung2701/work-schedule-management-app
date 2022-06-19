@@ -19,6 +19,15 @@
             android:name=".EmployeeActivity"
             android:exported="false" />
         <activity
+            android:name=".WorkOnTimeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LateForWorkActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OffWorkActivity"
+            android:exported="false" />
+        <activity
             android:name=".NotificationActivity"
             android:exported="false" />
         <activity

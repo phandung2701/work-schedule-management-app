@@ -138,7 +138,6 @@ public class AddEmployees extends AppCompatActivity {
                                 alertDialog.setPositiveButton("Không", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        FirebaseAuth.getInstance().signOut();
                                         Intent intent = new Intent(AddEmployees.this, WorkspaceActivityAdmin.class);
                                         startActivity(intent);
                                     }
