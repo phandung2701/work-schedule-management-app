@@ -117,9 +117,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-
                 CallAPiWeather();
-
             }
         },100);
         new Thread(new Runnable() {

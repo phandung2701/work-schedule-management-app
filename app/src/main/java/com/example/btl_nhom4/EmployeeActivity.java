@@ -65,25 +65,32 @@ public class EmployeeActivity extends AppCompatActivity {
         rcv_employee.setAdapter(mEmployeeAdapter);
 
         getListEmployee();
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String uid ;
         database = FirebaseDatabase.getInstance();
         reference = database.getReference();
-        reference.child("Users").child(uid).child("email").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        reference.child("Workspaces").child(String.valueOf(idWsp)).child("admin").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if(task.isSuccessful()){
-                    tv_emailWorkspace.setText(String.valueOf(task.getResult().getValue()));
-                }
+
+                reference.child("Users").child((String) task.getResult().getValue()).child("email").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        if(task.isSuccessful()){
+                            tv_emailWorkspace.setText(String.valueOf(task.getResult().getValue()));
+                        }
+                    }
+                });
+                reference.child("Users").child((String) task.getResult().getValue()).child("username").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        if(task.isSuccessful()){
+                            tv_nameWorkspace.setText(String.valueOf(task.getResult().getValue()));
+                        }
+                    }
+                });
             }
         });
-        reference.child("Users").child(uid).child("username").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if(task.isSuccessful()){
-                    tv_nameWorkspace.setText(String.valueOf(task.getResult().getValue()));
-                }
-            }
-        });
+
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -50,6 +51,7 @@ public class HomeWorkspaceFragment extends Fragment {
     private TextView tv_name_workspace,tv_email_workspace;
     private CardView cv_administrator,browse_app,single_newspaper,staff;
     private  WorkspaceActivityAdmin mWorkspaceActivityAdmin;
+    private ImageView btnBackPressed;
 
     private String uid;
     private int year;
@@ -81,6 +83,7 @@ public class HomeWorkspaceFragment extends Fragment {
         list_employee = view.findViewById(R.id.list_employee);
         staff = view.findViewById(R.id.Staff);
         progressBar = view.findViewById(R.id.progressBar);
+        btnBackPressed = view.findViewById(R.id.btnBackPressed);
 
         //
 
@@ -202,6 +205,21 @@ public class HomeWorkspaceFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        btnBackPressed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWorkspaceActivityAdmin.finish();
+            }
+        });
+        // duyệt đơn
+        browse_app.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mWorkspaceActivityAdmin, "đây là duyệt đơn", Toast.LENGTH_SHORT).show();
+            }
+        });
+        
+        
         return view;
 
 
