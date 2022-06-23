@@ -45,7 +45,8 @@ public class ResignationLetterActivity extends AppCompatActivity {
     private String txtDateOfResignation = "";
     private String txtReasonResignation = "";
     private String nameLeader = "Lê Thanh Sơn";
-   private ImageView back_pressed;
+    private ImageView back_pressed;
+    private int idWsp;
 
 
     private String[] listTypeNameLetters = {
@@ -202,16 +203,24 @@ public class ResignationLetterActivity extends AppCompatActivity {
                     txtDateOfResignation = autoCompleteTextViewTimeLetter.getText().toString();
                     txtReasonResignation = textInputEditTextReasonLetter.getText().toString();
 
+                    // get data in bundle
+                    Bundle bundle = getIntent().getExtras();
+                    if(bundle == null){
+                        return;
+                    }
+                    idWsp = bundle.getInt("wspID");
+
                     // Config firebase
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference databaseRef = database.getReference("Letter");
 
-                    Letter letter = new Letter(txtTypeOfLetter, txtDateOfResignation, txtReasonResignation);
-                    String uidUser = mFirebaseAuth.getUid().toString();
+                    String userId = mFirebaseAuth.getUid().toString();
+                    Letter letter = new Letter(txtTypeOfLetter, txtDateOfResignation, txtReasonResignation, idWsp, userId);
 
                     // saving data in database firebase
                     databaseRef
-                        .child(mFirebaseAuth.getCurrentUser().getUid())
+                        .child(String.valueOf(idWsp))
+                        .child(userId)
                         .setValue(letter)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
