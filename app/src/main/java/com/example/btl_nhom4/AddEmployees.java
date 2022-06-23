@@ -35,10 +35,11 @@ public class AddEmployees extends AppCompatActivity {
     private AutoCompleteTextView  email;
     private Button AddEmployees;
     private ImageView back_workspace;
-    private boolean isNameValid, isEmailValid;
-    private TextInputLayout nameError, emailError;
+    private boolean isEmailValid;
+    private TextInputLayout  emailError;
     private List<String> strEmail;
     private List<User> users;
+    private List<String> strEmailEmployee;
     private int idWsp;
     ProgressBar progressBar;
     @Override
@@ -53,6 +54,7 @@ public class AddEmployees extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         strEmail = new ArrayList<>();
         users = new ArrayList<>();
+        strEmailEmployee = new ArrayList<>();
 
         Bundle bundle = getIntent().getExtras();
         if(bundle == null){
@@ -65,6 +67,7 @@ public class AddEmployees extends AppCompatActivity {
         reference.child("Users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                strEmail.clear();
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()){
                     User user = dataSnapshot.getValue(User.class);
                     strEmail.add(user.getEmail());
@@ -76,16 +79,27 @@ public class AddEmployees extends AppCompatActivity {
                 // show error when calling api failed
             }
         });
+        reference.child("Workspaces").child(String.valueOf(idWsp)).child("Employees")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        strEmailEmployee.clear();
+                        for(DataSnapshot data : snapshot.getChildren()){
+                            User user = data.getValue(User.class);
+                            strEmailEmployee.add(user.getEmail());
+                        }
 
+
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
         ArrayAdapter<String> adapterEmail = new ArrayAdapter<String>
                 (this,android.R.layout.select_dialog_item, strEmail);
-
-
         email.setThreshold(2);
         email.setAdapter(adapterEmail);
-
-
-
 
        AddEmployees.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +108,6 @@ public class AddEmployees extends AppCompatActivity {
                     progressBar.setVisibility(View.VISIBLE);
                     String uidReceiver = "";
                     String nameReceiver ="";
-
                     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                     String emailSender = firebaseAuth.getCurrentUser().getEmail();
                     String idSender = firebaseAuth.getCurrentUser().getUid();
@@ -106,7 +119,6 @@ public class AddEmployees extends AppCompatActivity {
                     randomDouble = randomDouble * 100 + 1;
                     int randomInt = (int) randomDouble;
                     int idNotification = message.hashCode()+randomInt;
-                    Log.e("firebase", String.valueOf(idNotification));
                     for(User user : users){
                         if(user.getEmail().equals(emailReceiver)){
                             uidReceiver = user.getUid();
@@ -114,7 +126,6 @@ public class AddEmployees extends AppCompatActivity {
                             break;
                         }
                     }
-
                     if(nameReceiver != "" && uidReceiver != ""){
                         Notification notification = new Notification(idSender,uidReceiver,message,idNotification,idWsp,emailSender,0,0);
                         FirebaseDatabase database1 = FirebaseDatabase.getInstance();
@@ -138,18 +149,13 @@ public class AddEmployees extends AppCompatActivity {
                                 alertDialog.setPositiveButton("Không", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        Intent intent = new Intent(AddEmployees.this, WorkspaceActivityAdmin.class);
-                                        startActivity(intent);
+                                       finish();
                                     }
                                 });
                                 alertDialog.show();
-
-
                             }
                         });
                     }
-
-
                 }
             }
         });
@@ -163,8 +169,6 @@ public class AddEmployees extends AppCompatActivity {
     }
 
     public boolean SetValidation() {
-
-
         // Check for a valid email address.
         if (email.getText().toString().isEmpty()) {
             emailError.setError(getResources().getString(R.string.email_error));
@@ -173,22 +177,37 @@ public class AddEmployees extends AppCompatActivity {
             emailError.setError(getResources().getString(R.string.error_invalid_email));
             isEmailValid = false;
         }
-        else  {
-            for(String str : strEmail){
-                if(str.equals(email.getText().toString())){
-                    isEmailValid = true;
-                    emailError.setErrorEnabled(false);
-                    break;
-                }
+        else  if(!checkEmailUser()){
+            emailError.setError(getResources().getString(R.string.email_exist));
+            isEmailValid = false;
             }
-            if(!isEmailValid){
-                emailError.setError(getResources().getString(R.string.email_exist));
-                isEmailValid = false;
+        else if(checkEmailEmployee()){
+            emailError.setError(getResources().getString(R.string.employee_exist));
+            isEmailValid = false;
+        }
+        else{
+            emailError.setErrorEnabled(false);
+            isEmailValid= true;
+        }
+        if(isEmailValid){
+            return true;
+        }
+         return false;
+    }
+    private boolean checkEmailUser(){
+        for(String str : strEmail){
+            if(str.equals(email.getText().toString())){
+                return true;
             }
         }
-         if(isEmailValid){
-             return true;
-         }
-         return false;
+        return false;
+    }
+    private boolean checkEmailEmployee(){
+        for(String str : strEmailEmployee){
+            if(str.equals(email.getText().toString())){
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -18,6 +18,8 @@
     <string name="name_error">Please enter your name</string>
     <string name="name_exist">This name does not exist</string>
     <string name="email_exist">This email does not exist</string>
+    <string name="employee_exist">This employee does not exist</string>
+
     <string name="phone_error">Please enter your phone number</string>
     <string name="email_error">Please enter your email address</string>
     <string name="error_invalid_email">This email address is invalid</string>
