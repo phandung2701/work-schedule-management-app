@@ -12,6 +12,9 @@
         android:textStyle="bold"
         android:textColor="@color/black"
         android:textSize="18dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:padding="2dp"
         android:text="Thang 6"/>
     <LinearLayout
         android:layout_marginTop="5dp"
@@ -20,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="12dp"
-        android:layout_weight="0.4"
+        android:layout_weight="0.5"
         android:layout_marginRight="12dp">
         <LinearLayout
             android:layout_width="wrap_content"

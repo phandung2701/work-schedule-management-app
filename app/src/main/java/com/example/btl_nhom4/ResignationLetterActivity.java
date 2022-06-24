@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.btl_nhom4.model.letter.Letter;
+import com.example.btl_nhom4.model.user.User;
 import com.example.btl_nhom4.types.TypeOfLetter;
 import com.google.android.gms.common.util.ArrayUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,9 +29,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 
@@ -46,6 +52,8 @@ public class ResignationLetterActivity extends AppCompatActivity {
     private String txtReasonResignation = "";
     private String nameLeader = "Lê Thanh Sơn";
     private ImageView back_pressed;
+    private Letter letter;
+    private ArrayList<User> users;
     private int idWsp;
 
 
@@ -212,31 +220,61 @@ public class ResignationLetterActivity extends AppCompatActivity {
 
                     // Config firebase
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference databaseRef = database.getReference("Letter");
+                    DatabaseReference databaseRef = database.getReference();
 
                     String userId = mFirebaseAuth.getUid().toString();
-                    Letter letter = new Letter(txtTypeOfLetter, txtDateOfResignation, txtReasonResignation, idWsp, userId);
 
-                    // saving data in database firebase
-                    databaseRef
-                        .child(String.valueOf(idWsp))
-                        .child(userId)
-                        .setValue(letter)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Intent intent = new Intent(ResignationLetterActivity.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finishAffinity();
-                                } else {
-                                    Toast.makeText(
-                                    ResignationLetterActivity.this,
-                                    "Error!.", Toast.LENGTH_SHORT
-                                    ).show();
+                    databaseRef.child("Users").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            users = new ArrayList<User>();
+                            for (DataSnapshot data : snapshot.getChildren()){
+                                User user = data.getValue(User.class);
+                                users.add(user);
+                                if (user.getUid().equals(userId)) {
+                                    letter =
+                                        new Letter(
+                                                txtTypeOfLetter,
+                                                txtDateOfResignation,
+                                                txtReasonResignation,
+                                                idWsp,
+                                                userId,
+                                                user.getUsername()
+                                        );
                                 }
                             }
-                        });
+                            String hashCode = userId + '.' + idWsp + '.' + txtDateOfResignation + '.' + txtReasonResignation;
+                            hashCode = String.valueOf(hashCode.hashCode());
+
+                            // saving data in database firebase
+                            databaseRef
+                                .child("Letters")
+                                .child(String.valueOf(idWsp))
+                                .child(hashCode)
+                                .setValue(letter)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Intent intent = new Intent(ResignationLetterActivity.this, MainActivity.class);
+                                            startActivity(intent);
+                                            finishAffinity();
+                                        } else {
+                                            Toast.makeText(
+                                                    ResignationLetterActivity.this,
+                                                    "Error!.", Toast.LENGTH_SHORT
+                                            ).show();
+                                        }
+                                    }
+                                });
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
                 }
 
     }

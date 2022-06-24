@@ -2,6 +2,7 @@ package com.example.btl_nhom4.adapter;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 public class ResignationLettersAdapter extends RecyclerView.Adapter<ResignationLettersAdapter.ResignationViewHolder> {
     private ArrayList<Letter> listResignationLetters;
     private Context context;
+    ArrayList<String> checkDuplicateMonth = new ArrayList<String>();
 
     public ResignationLettersAdapter(ArrayList<Letter> listResignationLetters, Context context) {
         this.listResignationLetters = listResignationLetters;
@@ -35,7 +37,8 @@ public class ResignationLettersAdapter extends RecyclerView.Adapter<ResignationL
     @NonNull
     @Override
     public ResignationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.resignation_letters_item,parent,false);
+        return new ResignationViewHolder(view);
     }
 
     @Override
@@ -47,7 +50,7 @@ public class ResignationLettersAdapter extends RecyclerView.Adapter<ResignationL
         }
 
         // get value in each item of resignation letters
-        String nameStaff = getDataFromFirebaseDatabaseByIdUser(letter.getUserId());
+        String nameStaff = letter.getUsername();
         String reasonResignation = setTextTypeOfLetterForView(letter.getTypeOfLetter());
 
         // split date
@@ -58,44 +61,25 @@ public class ResignationLettersAdapter extends RecyclerView.Adapter<ResignationL
         String year = date[2];
 
         // check duplicate of the month
-        ArrayList<String> checkDuplicateMonth = new ArrayList<String>();
-
+        Log.println(Log.ERROR, "result", checkDuplicateMonth.toString());
         if (checkDuplicateMonth.contains(month)) {
             holder.textViewMonthOfResignation.setVisibility(View.GONE);
         } else {
             checkDuplicateMonth.add(month);
-            holder.textViewMonthOfResignation.setText(month);
+            holder.textViewMonthOfResignation.setText("Tháng " + month);
         }
 
-        holder.textViewDayOfResignation.setText(day);
+        holder.textViewDayOfResignation.setText("Ngày " + day);
         holder.textViewNameStaffResignation.setText(nameStaff);
         holder.textViewReasonResignation.setText(reasonResignation);
     }
 
     @Override
     public int getItemCount() {
+        if(listResignationLetters != null){
+            return listResignationLetters.size();
+        }
         return 0;
-    }
-
-    public String getDataFromFirebaseDatabaseByIdUser(String userId) {
-        final String[] username = {""};
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = firebaseDatabase.getReference();
-
-        databaseReference.child("Users").child(userId).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
-                 username[0] = user.getUsername();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("firebase", error.getMessage());
-            }
-        });
-
-        return username[0];
     }
 
     private String setTextTypeOfLetterForView(TypeOfLetter typeOfLetter) {

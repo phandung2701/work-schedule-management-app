@@ -215,14 +215,15 @@ public class HomeWorkspaceFragment extends Fragment {
         browse_app.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mWorkspaceActivityAdmin, "đây là duyệt đơn", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity().getApplication(), ListResignationLetters.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("wspID",mWorkspaceActivityAdmin.getIdWsp());
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
-        
-        
+
         return view;
-
-
     }
 
     private void CheckIn(){

@@ -7,7 +7,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,14 +39,18 @@ public class ListResignationLetters extends AppCompatActivity {
     private String txtViewNameStaff;
     private ResignationLettersAdapter resignationLettersAdapter;
     private RecyclerView recyclerViewListResignationLetters;
+    private ImageView btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_resignation_letters);
 
+        listResignationLettersFromDatabase = new ArrayList<Letter>();
+
         // set by id
         recyclerViewListResignationLetters = findViewById(R.id.recyclerViewListResignationLetters);
+        btnBack = findViewById(R.id.btnBackPressed);
 
         // get data in bundle
         Bundle bundle = getIntent().getExtras();
@@ -52,21 +59,22 @@ public class ListResignationLetters extends AppCompatActivity {
         }
         workspaceId = bundle.getInt("wspID");
 
-        listResignationLettersFromDatabase = new ArrayList<Letter>();
-
-        // processing
-        getListResignationLettersFromFirebase();
-        TextView test = findViewById(R.id.test);
-        test.setText(listResignationLettersFromDatabase.toString());
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerViewListResignationLetters.setLayoutManager(linearLayoutManager);
-        recyclerViewListResignationLetters.setHasFixedSize(true);
-
 
         // set view adapter
         resignationLettersAdapter = new ResignationLettersAdapter(listResignationLettersFromDatabase, getApplicationContext());
         recyclerViewListResignationLetters.setAdapter(resignationLettersAdapter);
+
+        // processing
+        getListResignationLettersFromFirebase();
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 
@@ -74,7 +82,7 @@ public class ListResignationLetters extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         reference = database.getReference();
 
-        reference.child("Letter").child(String.valueOf(workspaceId)).addValueEventListener(new ValueEventListener() {
+        reference.child("Letters").child(String.valueOf(workspaceId)).addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -83,7 +91,7 @@ public class ListResignationLetters extends AppCompatActivity {
                     Letter letter = data.getValue(Letter.class);
                     listResignationLettersFromDatabase.add(letter);
                 }
-                Log.println(Log.INFO, "Letter", listResignationLettersFromDatabase.toString());
+
                 resignationLettersAdapter.notifyDataSetChanged();
             }
 
