@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import com.example.btl_nhom4.AddEmployees;
 import com.example.btl_nhom4.Calendar;
 import com.example.btl_nhom4.EmployeeActivity;
+import com.example.btl_nhom4.ListResignationLetters;
 import com.example.btl_nhom4.R;
 import com.example.btl_nhom4.ResignationLetterActivity;
 import com.example.btl_nhom4.StatisticByDay;
@@ -125,6 +126,17 @@ public class HomeWorkspaceFragment extends Fragment {
             progressBar.setVisibility(View.GONE);
         }
 
+        single_newspaper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity().getApplication(), ListResignationLetters.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("wspID",mWorkspaceActivityAdmin.getIdWsp());
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+
         btnCheckIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -187,6 +199,9 @@ public class HomeWorkspaceFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity().getApplication(), ResignationLetterActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("wspID",mWorkspaceActivityAdmin.getIdWsp());
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -200,14 +215,15 @@ public class HomeWorkspaceFragment extends Fragment {
         browse_app.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mWorkspaceActivityAdmin, "đây là duyệt đơn", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity().getApplication(), ListResignationLetters.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("wspID",mWorkspaceActivityAdmin.getIdWsp());
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
-        
-        
+
         return view;
-
-
     }
 
     private void CheckIn(){
