@@ -47,8 +47,11 @@ public class SummaryEmployeeActivity extends AppCompatActivity {
     private int idWsp;
     private String uid;
     private long diffDays;
-    private int countOffWork,countWorkOnTime,countLateForWork;
+    private int countOffWork;
     private int totalWorkOnTime,totalLateForWork,totalOffWork;
+    private int[] arrWorkOnTime = {0,0,0,0,0,0,0,0,0,0,0,0};
+    private int[] arrlateForWork = {0,0,0,0,0,0,0,0,0,0,0,0};
+    private String[] arrDate ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,8 +110,8 @@ public class SummaryEmployeeActivity extends AppCompatActivity {
                         }
                     }
                 });
-        String TAG = "firebase";
         getMonthlySummary();
+        // date of employment
         reference.child("Workspaces").child(String.valueOf(idWsp))
                 .child("Employees").child(uid).child("dateOfEmployment").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -118,6 +121,7 @@ public class SummaryEmployeeActivity extends AppCompatActivity {
                       String dateOfEmployment = "Ngày vào làm : "+task.getResult().getValue().toString();
                       tv_dateOfEmployment.setText(dateOfEmployment);
                       String[] separated = task.getResult().getValue().toString().split("/");
+                      arrDate = new String[]{separated[0],separated[1],separated[2]};
                       if(separated[1].length()==1){
                           dateOfWork = separated[2]+"-0"+separated[1]+"-"+separated[0];
                       }
@@ -128,7 +132,9 @@ public class SummaryEmployeeActivity extends AppCompatActivity {
                       LocalDate d2 = LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
                       Duration diff = Duration.between(d1.atStartOfDay(), d2.atStartOfDay());
                       diffDays = diff.toDays();
-                      totalOffWork = (int) diffDays - totalWorkOnTime-totalLateForWork;
+                      if(String.valueOf(diffDays).equals("0")){
+                          diffDays = 1;
+                      }
                       tv_numberOfWork.setText(String.valueOf(diffDays));
                   }
             }
@@ -139,16 +145,44 @@ public class SummaryEmployeeActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                int[] day;
+                if(year % 400 == 0 || (year % 4 == 0 && year % 100 != 0)){
+                    day = new int[]{31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+                }
+                else{
+                    day = new int[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+                }
+                MonthlySummary monthlySummary = null;
+                for(int i = Integer.valueOf(arrDate[1]);i<=(month+1);i++){
+                    if(String.valueOf(i).equals(arrDate[1])){
+                        day[i-1] -= Integer.parseInt(arrDate[0]);
+                    }
+                    countOffWork = day[i-1] - arrWorkOnTime[i-1]-arrlateForWork[i-1];
+                    monthlySummary = new MonthlySummary((i),arrWorkOnTime[i-1],arrlateForWork[i-1],countOffWork);
+                    monthlySummaryList.add(monthlySummary);
+
+                }
+
+                mSummaryAdapter.notifyDataSetChanged();
+
+                for(int i = 0;i<=11;i++){
+                    totalWorkOnTime += arrWorkOnTime[i];
+                }
+                for(int i = 0;i<=11;i++){
+                    totalLateForWork += arrlateForWork[i];
+                }
                 tv_workOnTime.setText(String.valueOf(totalWorkOnTime));
                 tv_lateForWork.setText(String.valueOf(totalLateForWork));
+                totalOffWork = (int) diffDays - totalWorkOnTime - totalLateForWork;
                 tv_offWork.setText(String.valueOf(totalOffWork));
+
+
             }
         },300);
 
 
-
     }
-     private synchronized void getMonthlySummary(){
+     private  void getMonthlySummary(){
         int[] day;
         if(year % 400 == 0 || (year % 4 == 0 && year % 100 != 0)){
              day = new int[]{31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
@@ -169,22 +203,9 @@ public class SummaryEmployeeActivity extends AppCompatActivity {
                             if(String.valueOf(i).equals(separated[1])){
                                 j = Integer.parseInt(separated[0]);
                             }
-
-                            CountWorkOnTime(j,day[i-1],i);
-
-                            int finalI1 = i;
-
-                            countOffWork = day[finalI1 -1] - countWorkOnTime - countLateForWork;
-                            MonthlySummary monthlySummary = new MonthlySummary(finalI1,countWorkOnTime,countLateForWork,countOffWork);
-                            monthlySummaryList.add(monthlySummary);
-                            totalWorkOnTime += countWorkOnTime;
-
-                            totalLateForWork += countLateForWork;
-                            mSummaryAdapter.notifyDataSetChanged();
-                            Log.e("firebase", "ok case");
+                            CountWorkOnTimeAndLateForWork(j,day[i-1],i);
                         }
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
 
@@ -195,8 +216,7 @@ public class SummaryEmployeeActivity extends AppCompatActivity {
 
     }
 
-    private  void CountWorkOnTime(int j,int day,int i){
-
+    private  void CountWorkOnTimeAndLateForWork(int j,int day,int i){
         for(;j<= day;j++){
             int finalJ = j;
             int finalI = i;
@@ -210,32 +230,29 @@ public class SummaryEmployeeActivity extends AppCompatActivity {
                                 User user = data.getValue(User.class);
 
                                 if(uid.equals(user.getUid())){
-                                    countWorkOnTime++;
+                                    arrWorkOnTime[finalI-1] +=1;
                                     break;
                                 }
                             }
-                            Log.e("firebase", "ok");
                         }
-
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
 
                         }
                     });
             reference.child("Calendar").child(String.valueOf(idWsp)).child(String.valueOf(year))
-                    .child(String.valueOf(finalJ))
-                    .child(String.valueOf(finalI)).child("LateForWork")
+                    .child(String.valueOf(finalI))
+                    .child(String.valueOf(finalJ)).child("LateForWork")
                     .addValueEventListener(new ValueEventListener() {
                         @Override
                         public synchronized void onDataChange(@NonNull DataSnapshot snapshot) {
                             for (DataSnapshot data : snapshot.getChildren()){
                                 User user = data.getValue(User.class);
                                 if(uid.equals(user.getUid())){
-                                    countLateForWork++;
+                                    arrlateForWork[finalI-1] +=1;
                                     break;
                                 }
                             }
-                            Log.e("firebase", "ok1");
                         }
 
                         @Override
@@ -245,26 +262,5 @@ public class SummaryEmployeeActivity extends AppCompatActivity {
                     });
 
         }
-    }
-    private void CountLateForWork(int month,int day){
-        reference.child("Calendar").child(String.valueOf(idWsp)).child(String.valueOf(year))
-                .child(String.valueOf(month))
-                .child(String.valueOf(day)).child("LateForWork")
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot data : snapshot.getChildren()){
-                            User user = data.getValue(User.class);
-                            if(user.getUid().equals(uid)){
-                                countLateForWork ++;
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
     }
 }
