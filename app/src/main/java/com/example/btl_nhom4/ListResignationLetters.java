@@ -34,7 +34,7 @@ public class ListResignationLetters extends AppCompatActivity {
     private ArrayList<Letter> listResignationLettersFromDatabase;
     private int workspaceId;
 
-    // variables ơfor view
+    // variables for view
     private String txtViewTypeOfLetters;
     private String txtViewNameStaff;
     private ResignationLettersAdapter resignationLettersAdapter;
