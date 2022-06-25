@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BTL_Nhom4">
         <activity
+            android:name=".SummaryForAdmin"
+            android:exported="false" />
+        <activity
             android:name=".SummaryEmployeeActivity"
             android:exported="false" />
         <activity
