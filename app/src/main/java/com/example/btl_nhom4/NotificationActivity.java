@@ -62,6 +62,7 @@ public class NotificationActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference();
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
         reference.child("Users").child(uid).child("Messages").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

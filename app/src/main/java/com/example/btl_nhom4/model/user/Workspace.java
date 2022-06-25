@@ -14,7 +14,7 @@ public class Workspace implements Serializable {
     private String province;
     private String email;
     private String admin;
-
+    private String dateCreatedWsp;
 
 
     public Workspace(){
@@ -32,6 +32,32 @@ public class Workspace implements Serializable {
         this.email = email;
         this.admin = admin;
     }
+    public Workspace(int idWorkspace, String nameWorkspace, String nameCompany, String workTime, String endWorkTime, String lateTimeCheckIn, String province, String email, String admin, String dateCreatedWsp) {
+        this.idWorkspace = idWorkspace;
+        this.nameWorkspace = nameWorkspace;
+        this.nameCompany = nameCompany;
+        this.workTime = workTime;
+        this.endWorkTime = endWorkTime;
+        this.lateTimeCheckIn = lateTimeCheckIn;
+        this.province = province;
+        this.email = email;
+        this.admin = admin;
+        this.dateCreatedWsp = dateCreatedWsp;
+    }
+
+    public Workspace(int idWorkspace, List<User> employees, String nameWorkspace, String nameCompany, String workTime, String endWorkTime, String lateTimeCheckIn, String province, String email, String admin, String dateCreatedWsp) {
+        this.idWorkspace = idWorkspace;
+        this.employees = employees;
+        this.nameWorkspace = nameWorkspace;
+        this.nameCompany = nameCompany;
+        this.workTime = workTime;
+        this.endWorkTime = endWorkTime;
+        this.lateTimeCheckIn = lateTimeCheckIn;
+        this.province = province;
+        this.email = email;
+        this.admin = admin;
+        this.dateCreatedWsp = dateCreatedWsp;
+    }
 
     public Workspace(int idWorkspace, List<User> employees, String nameWorkspace, String nameCompany, String workTime, String endWorkTime, String lateTimeCheckIn, String province, String email, String admin) {
         this.idWorkspace = idWorkspace;
@@ -44,6 +70,14 @@ public class Workspace implements Serializable {
         this.province = province;
         this.email = email;
         this.admin = admin;
+    }
+
+    public String getDateCreatedWsp() {
+        return dateCreatedWsp;
+    }
+
+    public void setDateCreatedWsp(String dateCreatedWsp) {
+        this.dateCreatedWsp = dateCreatedWsp;
     }
 
     public int getIdWorkspace() {

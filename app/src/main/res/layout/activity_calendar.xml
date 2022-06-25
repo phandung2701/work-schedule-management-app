@@ -101,7 +101,6 @@
                     android:layout_marginRight="10dp"
 
                     />
-
                 <TextView
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
@@ -110,8 +109,6 @@
                     android:layout_marginRight="30dp"
                     android:textSize="16sp"
                     android:text="@string/no_attendance"/>
-
-
                 <TextView
                     android:id="@+id/btn_checkin"
                     android:layout_width="wrap_content"
@@ -130,6 +127,18 @@
                 android:text="Bạn đã checkin"
                 android:textColor="@color/white"
                 android:background="@color/green_4"
+                android:textStyle="italic"
+                android:textSize="16sp"
+                android:padding="5dp"
+                android:visibility="gone"
+                />
+            <TextView
+                android:id="@+id/overtime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="đã quá giờ checkin"
+                android:textColor="@color/white"
+                android:background="@color/error"
                 android:textStyle="italic"
                 android:textSize="16sp"
                 android:padding="5dp"

@@ -105,7 +105,6 @@ public class EmployeeActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference();
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        Log.e("firebase", String.valueOf(idWsp));
         reference.child("Workspaces").child(String.valueOf(idWsp)).child("Employees").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -115,7 +114,6 @@ public class EmployeeActivity extends AppCompatActivity {
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
                     User user = dataSnapshot.getValue(User.class);
                     mListUsers.add(user);
-                    Log.e("firebase", String.valueOf(idWsp));
                 }
                 mEmployeeAdapter.notifyDataSetChanged();
             }

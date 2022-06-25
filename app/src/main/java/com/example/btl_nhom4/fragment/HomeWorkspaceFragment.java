@@ -25,6 +25,7 @@ import com.example.btl_nhom4.ListResignationLetters;
 import com.example.btl_nhom4.R;
 import com.example.btl_nhom4.ResignationLetterActivity;
 import com.example.btl_nhom4.StatisticByDay;
+import com.example.btl_nhom4.SummaryEmployeeActivity;
 import com.example.btl_nhom4.WorkspaceActivityAdmin;
 import com.example.btl_nhom4.login;
 import com.example.btl_nhom4.model.user.User;
@@ -48,8 +49,8 @@ public class HomeWorkspaceFragment extends Fragment {
     }
 
     private LinearLayout calendarWorkspace,statisticByDay,add_employees,resignation_letter,list_employee;
-    private TextView tv_name_workspace,tv_email_workspace;
-    private CardView cv_administrator,browse_app,single_newspaper,staff;
+    private TextView tv_name_workspace,tv_email_workspace,summary_year;
+    private CardView cv_administrator,browse_app,single_newspaper,staff,summary;
     private  WorkspaceActivityAdmin mWorkspaceActivityAdmin;
     private ImageView btnBackPressed;
 
@@ -84,9 +85,13 @@ public class HomeWorkspaceFragment extends Fragment {
         staff = view.findViewById(R.id.Staff);
         progressBar = view.findViewById(R.id.progressBar);
         btnBackPressed = view.findViewById(R.id.btnBackPressed);
+        summary_year = view.findViewById(R.id.summary_year);
+        summary = view.findViewById(R.id.summary);
 
         //
-
+        mCalendar = java.util.Calendar.getInstance();
+        year = mCalendar.get(java.util.Calendar.YEAR);
+        summary_year.setText("Nhìn lại năm "+year);
         noCheckIn = view.findViewById(R.id.no_checkin);
         btnCheckIn = view.findViewById(R.id.btn_checkin);
         //
@@ -120,6 +125,15 @@ public class HomeWorkspaceFragment extends Fragment {
             },500);
         }
         else {
+            if(hour < 8 || hour > 17 ){
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    noCheckIn.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
+                }
+            },300);
+            }
             cv_administrator.setVisibility(View.GONE);
             browse_app.setVisibility(View.GONE);
             single_newspaper.setVisibility(View.VISIBLE);
@@ -222,7 +236,22 @@ public class HomeWorkspaceFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
+        summary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(uid.equals(mWorkspaceActivityAdmin.getAdmin())){
+                    // tổng kết của admin
+                    Toast.makeText(mWorkspaceActivityAdmin, "admin is summary", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Intent intent = new Intent(getActivity().getApplication(), SummaryEmployeeActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("wspID",mWorkspaceActivityAdmin.getIdWsp());
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            }
+        });
         return view;
     }
 

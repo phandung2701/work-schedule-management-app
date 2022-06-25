@@ -5,15 +5,19 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.example.btl_nhom4.model.user.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,7 +40,7 @@ public class Calendar extends AppCompatActivity {
     private SimpleDateFormat sdf;
     private ImageView btnBackPressed;
     private LinearLayout noCheckIn;
-    private TextView btnCheckIn,checked;
+    private TextView btnCheckIn,checked,overtime;
     private ProgressBar progressBar;
 
     private int idWsp;
@@ -65,7 +69,7 @@ public class Calendar extends AppCompatActivity {
         noCheckIn = findViewById(R.id.no_checkin);
         btnCheckIn = findViewById(R.id.btn_checkin);
         progressBar = findViewById(R.id.progressBar);
-
+        overtime = findViewById(R.id.overtime);
 
 
         Bundle bundle = getIntent().getExtras();
@@ -107,6 +111,7 @@ public class Calendar extends AppCompatActivity {
                 }
             }
         });
+
         showCheckIn(year,month,day);
         btnCheckIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,16 +153,11 @@ public class Calendar extends AppCompatActivity {
                             }
                         }
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                         // show error when calling api failed
                     }
                 });
-
-
-
-
     }
 
     private void showCheckIn(int selectYear, int selectMonth, int selectDay){
@@ -179,15 +179,18 @@ public class Calendar extends AppCompatActivity {
                 if(user != null && day == selectDay && month== selectMonth && year == selectYear  ){
                     checked.setVisibility(View.VISIBLE);
                     noCheckIn.setVisibility(View.GONE);
+                    overtime.setVisibility(View.GONE);
                 }
                 else if(day == selectDay && month== selectMonth && year == selectYear && (hour >= 8 && hour <= 17) ){
                     noCheckIn.setVisibility(View.VISIBLE);
                     checked.setVisibility(View.GONE);
+                    overtime.setVisibility(View.GONE);
 
                 }
                 else {
                     noCheckIn.setVisibility(View.GONE);
                     checked.setVisibility(View.GONE);
+                    overtime.setVisibility(View.VISIBLE);
                 }
 
             }
@@ -197,8 +200,6 @@ public class Calendar extends AppCompatActivity {
 
             }
         });
-
-
         reference.child("Calendar")
                 .child(String.valueOf(idWsp))
                 .child(String.valueOf(year))
@@ -209,25 +210,39 @@ public class Calendar extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
-                if(user != null && day == selectDay && month== selectMonth && year == selectYear  ){
+                if(user != null && day == selectDay && month== selectMonth && year == selectYear){
                     checked.setVisibility(View.VISIBLE);
                     noCheckIn.setVisibility(View.GONE);
+                    overtime.setVisibility(View.GONE);
                 }
                 else if(day == selectDay && month== selectMonth && year == selectYear && (hour >= 8 && hour <= 17 )){
                     noCheckIn.setVisibility(View.VISIBLE);
                     checked.setVisibility(View.GONE);
-
+                    overtime.setVisibility(View.GONE);
                 }
                 else {
                     noCheckIn.setVisibility(View.GONE);
                     checked.setVisibility(View.GONE);
+                    overtime.setVisibility(View.VISIBLE);
                 }
 
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+        reference.child("Workspaces").child(String.valueOf(idWsp)).child("admin")
+                .get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if(task.isSuccessful()){
+                    if(uid.equals(task.getResult().getValue().toString())){
+                        noCheckIn.setVisibility(View.GONE);
+                        checked.setVisibility(View.GONE);
+                        overtime.setVisibility(View.GONE);
+                    }
+                }
             }
         });
 
