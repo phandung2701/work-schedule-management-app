@@ -7,6 +7,7 @@ public class User {
     private String email;
     private String uid;
     private List<Workspace> workspace;
+    private String dateOfEmployment;
 
     public User(String username, String email,String uid) {
         this.username = username;
@@ -14,7 +15,22 @@ public class User {
         this.uid = uid;
     }
 
+    public User(String username, String email, String uid, String dateOfEmployment) {
+        this.username = username;
+        this.email = email;
+        this.uid = uid;
+        this.dateOfEmployment = dateOfEmployment;
+    }
+
     public User() {
+    }
+
+    public String getDateOfEmployment() {
+        return dateOfEmployment;
+    }
+
+    public void setDateOfEmployment(String dateOfEmployment) {
+        this.dateOfEmployment = dateOfEmployment;
     }
 
     public String getUsername() {

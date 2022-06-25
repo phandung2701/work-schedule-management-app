@@ -55,7 +55,8 @@ public class ResignationLetterActivity extends AppCompatActivity {
     private Letter letter;
     private ArrayList<User> users;
     private int idWsp;
-
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference reference = database.getReference();
 
     private String[] listTypeNameLetters = {
         "Nghỉ phép",
@@ -196,7 +197,30 @@ public class ResignationLetterActivity extends AppCompatActivity {
                 }
             }
         });
-
+        Bundle bundle = getIntent().getExtras();
+        if(bundle == null){
+            return;
+        }
+        idWsp = bundle.getInt("wspID");
+        //name manage
+        reference.child("Workspaces").child(String.valueOf(idWsp)).child("admin").get()
+                .addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        Log.e("firebase",task.getResult().getValue().toString() );
+                        if(task.isSuccessful()){
+                            reference.child("Users").child(task.getResult().getValue().toString())
+                                    .child("username").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                    if(task.isSuccessful()){
+                                        textViewNameLeader.setText(task.getResult().getValue().toString());
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
         btnSubmitLetter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -212,19 +236,13 @@ public class ResignationLetterActivity extends AppCompatActivity {
                     txtReasonResignation = textInputEditTextReasonLetter.getText().toString();
 
                     // get data in bundle
-                    Bundle bundle = getIntent().getExtras();
-                    if(bundle == null){
-                        return;
-                    }
-                    idWsp = bundle.getInt("wspID");
+
 
                     // Config firebase
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference databaseRef = database.getReference();
 
                     String userId = mFirebaseAuth.getUid().toString();
 
-                    databaseRef.child("Users").addValueEventListener(new ValueEventListener() {
+                    reference.child("Users").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             users = new ArrayList<User>();
@@ -247,7 +265,7 @@ public class ResignationLetterActivity extends AppCompatActivity {
                             hashCode = String.valueOf(hashCode.hashCode());
 
                             // saving data in database firebase
-                            databaseRef
+                            reference
                                 .child("Letters")
                                 .child(String.valueOf(idWsp))
                                 .child(hashCode)

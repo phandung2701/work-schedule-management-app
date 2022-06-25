@@ -31,8 +31,16 @@ import android.widget.Toast;
 import com.example.btl_nhom4.adapter.ViewPager2Adapter;
 import com.example.btl_nhom4.api.ApiWeather;
 
+import com.example.btl_nhom4.model.user.User;
 import com.example.btl_nhom4.model.weather.OpenWeatherMap;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;

@@ -36,6 +36,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
 
     List<Notification> notifications;
+
+
+
     private Context context;
 
     public NotificationAdapter(List<Notification> notifications, Context context) {
@@ -82,6 +85,16 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 public void onClick(View v) {
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference reference = database.getReference();
+                    java.util.Calendar mCalendar;
+                    int year;
+                    int month;
+                    int day;
+                    mCalendar = java.util.Calendar.getInstance();
+                    year = mCalendar.get(java.util.Calendar.YEAR);
+                    month = mCalendar.get(java.util.Calendar.MONTH);
+                    day = mCalendar.get(java.util.Calendar.DAY_OF_MONTH);
+                    String date = day + "/"+(month+1) +"/"+year;
+
                     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     int idWsp = notification.getIdWorkspace();
                     DatabaseReference reference1 = database.getReference();
@@ -103,6 +116,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                             // show error when adding data
                         }
                     });
+
                     reference.child("Users").child(uid).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -114,6 +128,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                                             //complete !!
                                         }
                                     });
+                            reference1.child("Workspaces").child(String.valueOf(idWsp)).child("Employees").child(user.getUid())
+                                    .child("dateOfEmployment").setValue(date);
+
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {

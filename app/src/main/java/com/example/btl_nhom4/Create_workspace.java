@@ -72,6 +72,15 @@ public class Create_workspace extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(SetValidation()){
+                    java.util.Calendar mCalendar;
+                    int year;
+                    int month;
+                    int day;
+                    mCalendar = java.util.Calendar.getInstance();
+                    year = mCalendar.get(java.util.Calendar.YEAR);
+                    month = mCalendar.get(java.util.Calendar.MONTH);
+                    day = mCalendar.get(java.util.Calendar.DAY_OF_MONTH);
+                    String date = day + "/"+(month+1) +"/"+year;
                     progressBar.setVisibility(View.VISIBLE);
                     String nameWorkspace = name_workspace.getText().toString().trim();
                     String admin  = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -83,7 +92,7 @@ public class Create_workspace extends AppCompatActivity {
                     String lateTimeCheckIn = "08:15";
                     int hashCode = nameWorkspace.hashCode();
 
-                    Workspace workspace = new Workspace(hashCode,nameWorkspace,companyName,workTime,endWorkTime,lateTimeCheckIn,province,strEmail,admin);
+                    Workspace workspace = new Workspace(hashCode,nameWorkspace,companyName,workTime,endWorkTime,lateTimeCheckIn,province,strEmail,admin,date);
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference ref = database.getReference("Workspaces");
                     ref.child(String.valueOf(hashCode)).setValue(workspace, new DatabaseReference.CompletionListener() {
