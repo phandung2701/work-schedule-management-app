@@ -2,6 +2,15 @@ package com.example.btl_nhom4.model.user;
 
 public class MonthlySummary {
     private int month,numWorkOnTime,numLateForWork,numOffWork;
+    private String username;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public MonthlySummary(int month, int numWorkOnTime, int numLateForWork, int numOffWork) {
         this.month = month;
@@ -9,6 +18,15 @@ public class MonthlySummary {
         this.numLateForWork = numLateForWork;
         this.numOffWork = numOffWork;
     }
+
+    public MonthlySummary(int month, int numWorkOnTime, int numLateForWork, int numOffWork, String username) {
+        this.month = month;
+        this.numWorkOnTime = numWorkOnTime;
+        this.numLateForWork = numLateForWork;
+        this.numOffWork = numOffWork;
+        this.username = username;
+    }
+
     public MonthlySummary(){}
 
     public int getMonth() {

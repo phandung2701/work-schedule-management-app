@@ -26,6 +26,7 @@ import com.example.btl_nhom4.R;
 import com.example.btl_nhom4.ResignationLetterActivity;
 import com.example.btl_nhom4.StatisticByDay;
 import com.example.btl_nhom4.SummaryEmployeeActivity;
+import com.example.btl_nhom4.SummaryForAdmin;
 import com.example.btl_nhom4.WorkspaceActivityAdmin;
 import com.example.btl_nhom4.login;
 import com.example.btl_nhom4.model.user.User;
@@ -241,7 +242,11 @@ public class HomeWorkspaceFragment extends Fragment {
             public void onClick(View v) {
                 if(uid.equals(mWorkspaceActivityAdmin.getAdmin())){
                     // tổng kết của admin
-                    Toast.makeText(mWorkspaceActivityAdmin, "admin is summary", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getActivity().getApplication(), SummaryForAdmin.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("wspID",mWorkspaceActivityAdmin.getIdWsp());
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                 }
                 else{
                     Intent intent = new Intent(getActivity().getApplication(), SummaryEmployeeActivity.class);
