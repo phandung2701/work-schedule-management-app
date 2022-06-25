@@ -102,7 +102,6 @@ public class StatisticByDay extends AppCompatActivity {
 
                 }
                 dem -= mListWorkOnTime.size();
-                Log.e("firebase", String.valueOf(dem));
                 String tv1 = "Có "+mListWorkOnTime.size()+" người đi làm đúng giờ";
                 tv_workOnTime.setText(tv1);
             }

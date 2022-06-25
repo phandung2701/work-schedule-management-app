@@ -181,7 +181,7 @@ public class Calendar extends AppCompatActivity {
                     noCheckIn.setVisibility(View.GONE);
                     overtime.setVisibility(View.GONE);
                 }
-                else if(day == selectDay && month== selectMonth && year == selectYear && (hour >= 8 && hour <= 17) ){
+                else if(day == selectDay && month== selectMonth && year == selectYear && (hour >= 8 && hour <= 20) ){
                     noCheckIn.setVisibility(View.VISIBLE);
                     checked.setVisibility(View.GONE);
                     overtime.setVisibility(View.GONE);
