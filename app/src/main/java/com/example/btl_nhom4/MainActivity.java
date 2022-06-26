@@ -128,26 +128,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 CallAPiWeather();
             }
         },100);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                TextView textView = findViewById(R.id.test);
-                textView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        handleActivity();
-                    }
-                });
-            }
-        });
 
 
     }
-    private void handleActivity(){
-        Intent intent = new Intent(getApplicationContext(), WorkspaceActivityAdmin.class);
-        startActivity(intent);
-    }
-
 
     @SuppressLint("MissingPermission")
     private void getLocation() {

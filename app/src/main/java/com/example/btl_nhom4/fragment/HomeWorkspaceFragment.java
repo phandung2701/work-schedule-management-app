@@ -123,7 +123,7 @@ public class HomeWorkspaceFragment extends Fragment {
                     noCheckIn.setVisibility(View.GONE);
                     progressBar.setVisibility(View.GONE);
                 }
-            },500);
+            },400);
         }
         else {
             if(hour < 8 || hour > 17 ){
@@ -133,7 +133,7 @@ public class HomeWorkspaceFragment extends Fragment {
                     noCheckIn.setVisibility(View.GONE);
                     progressBar.setVisibility(View.GONE);
                 }
-            },300);
+            },400);
             }
             cv_administrator.setVisibility(View.GONE);
             browse_app.setVisibility(View.GONE);

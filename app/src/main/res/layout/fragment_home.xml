@@ -292,5 +292,4 @@
     </RelativeLayout>
 
     <include layout="@layout/layout_add_list_workspace"/>
-    <include layout="@layout/bottom_sheet" />
 </LinearLayout>

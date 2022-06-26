@@ -101,15 +101,6 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        ImageView imageViewShowBottomSheetListWorkspace = view.findViewById(R.id.ImageViewShowBottomSheetListWorkspace);
-
-        imageViewShowBottomSheetListWorkspace.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                BottomSheetDialog bottomSheet = new BottomSheetDialog();
-                bottomSheet.show(getActivity().getSupportFragmentManager(), "ModalBottomSheet");
-            }
-        });
 
         return view;
     }
@@ -119,37 +110,39 @@ public class HomeFragment extends Fragment {
         reference.child("Workspaces").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mListWorkspace.clear();
                 for (DataSnapshot workspaceSnapshot: snapshot.getChildren()) {
                     Workspace workspace = workspaceSnapshot.getValue(Workspace.class);
                     if (workspace.getAdmin().equals(uiId)){
                         mListWorkspace.add(workspace);
                     }
                 }
-                mWorkspaceAdapter.notifyDataSetChanged();
+                reference.child("Users").child(uiId).child("Workspaces").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        for (DataSnapshot workspaceSnapshot: snapshot.getChildren()) {
+                            Workspace workspace = workspaceSnapshot.getValue(Workspace.class);
+                            mListWorkspace.add(workspace);
+                        }
+                        mWorkspaceAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
 
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(getContext(),"Get list workspace fail",Toast.LENGTH_SHORT).show();
-                Log.e("firebase", "fail");
             }
         });
-        reference.child("Users").child(uiId).child("Workspaces").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot workspaceSnapshot: snapshot.getChildren()) {
-                    Workspace workspace = workspaceSnapshot.getValue(Workspace.class);
-                        mListWorkspace.add(workspace);
-                }
-                mWorkspaceAdapter.notifyDataSetChanged();
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
     }
 }

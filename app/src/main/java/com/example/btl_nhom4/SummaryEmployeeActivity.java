@@ -34,6 +34,7 @@ public class SummaryEmployeeActivity extends AppCompatActivity {
     private java.util.Calendar mCalendar;
 
     private TextView tv_offWork,tv_lateForWork,tv_workOnTime,tv_nameWorkspace,tv_numberOfWork,tv_dateOfEmployment;
+    private TextView header_summary;
     private RecyclerView rcv_monthlySummary;
     private SummaryEmployeeAdapter mSummaryAdapter;
     private List<MonthlySummary> monthlySummaryList;
@@ -66,6 +67,7 @@ public class SummaryEmployeeActivity extends AppCompatActivity {
         tv_dateOfEmployment = findViewById(R.id.dateOfEmployment);
         btnBackPressed = findViewById(R.id.btnBackPressed);
         rcv_monthlySummary = findViewById(R.id.rcv_monthlySummary);
+        header_summary = findViewById(R.id.header_summary);
         // get date
         mCalendar = java.util.Calendar.getInstance();
         year = mCalendar.get(java.util.Calendar.YEAR);
@@ -78,7 +80,8 @@ public class SummaryEmployeeActivity extends AppCompatActivity {
         else{
             date = year + "-"+(month+1) +"-"+day;
         }
-
+        String header = "Tổng kết năm "+year;
+        header_summary.setText(header);
         //set list monthly summary
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         rcv_monthlySummary.setLayoutManager(linearLayoutManager);

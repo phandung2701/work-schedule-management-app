@@ -54,6 +54,7 @@ public class SummaryForAdmin extends AppCompatActivity {
     // constant variables for child of firebase in database
     private final String CHILD_USERS = "Users";
     private final String CHILD_CALENDAR = "Calendar";
+    private final String CHILD_EMPLOYEES = "Employees";
     private final String CHILD_LATE_FOR_WORK = "LateForWork";
     private final String CHILD_WORK_ON_TIME = "WorkOnTime";
     private final String CHILD_WORKSPACES = "Workspaces";
@@ -122,8 +123,11 @@ public class SummaryForAdmin extends AppCompatActivity {
             }
         });
 
-        // get list the users
-        databaseReference.child(CHILD_USERS).addValueEventListener(new ValueEventListener() {
+        // get list the employee
+        databaseReference.child(CHILD_WORKSPACES)
+                .child(workspaceId)
+                .child(CHILD_EMPLOYEES)
+                .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listUsers.clear();

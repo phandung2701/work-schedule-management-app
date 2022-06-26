@@ -190,7 +190,9 @@ public class Calendar extends AppCompatActivity {
                 else {
                     noCheckIn.setVisibility(View.GONE);
                     checked.setVisibility(View.GONE);
-                    overtime.setVisibility(View.VISIBLE);
+                    if(hour > 17){
+                        overtime.setVisibility(View.VISIBLE);
+                    }
                 }
 
             }
@@ -223,7 +225,10 @@ public class Calendar extends AppCompatActivity {
                 else {
                     noCheckIn.setVisibility(View.GONE);
                     checked.setVisibility(View.GONE);
-                    overtime.setVisibility(View.VISIBLE);
+                    if(hour > 17){
+                        overtime.setVisibility(View.VISIBLE);
+                    }
+
                 }
 
             }
